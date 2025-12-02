@@ -1,2 +1,2 @@
 # Shrikant-portfolio
-This my protfolio 
+https://shrikant-sp.github.io/Shrikant-portfolio/
