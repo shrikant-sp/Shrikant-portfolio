@@ -80,8 +80,6 @@ h2{font:400 clamp(3rem,10vw,6.4rem)/.95 var(--serif);letter-spacing:-.03em}
 .contact p.big a{font-style:italic;color:var(--acc);text-underline-offset:7px}
 .contact .small{margin-top:28px;color:var(--soft)}.contact .small a{color:var(--ink)}
 footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px;padding-block:28px 90px;border-top:1px solid var(--line)}
-.motion{position:fixed;z-index:25;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));display:flex;gap:10px;align-items:center;padding:12px 16px;border:1px solid #2b2b2b;border-radius:10px;background:rgba(14,14,14,.9);color:var(--ink);font:500 .72rem var(--mono);letter-spacing:.14em;text-transform:uppercase;cursor:pointer}
-.motion i{width:10px;height:12px;border-left:3px solid var(--ink);border-right:3px solid var(--ink)}
 
 /* typography scroll reveal */
 .sp .w{display:inline-block;white-space:nowrap}
@@ -203,7 +201,6 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px;p
   <span class="mono">Maharashtra, India</span>
   <a class="mono" href="#top">Back to top ↑</a>
 </footer>
-<button class="motion" id="motion" type="button" aria-pressed="true"><i></i><span>Motion on</span></button>
 
 <script>
 (function () {
@@ -215,7 +212,6 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px;p
   addEventListener('keydown', function (e) { if (e.key === 'Escape') setMenu(false); });
 
   var os = matchMedia('(prefers-reduced-motion: reduce)').matches, on = !os;
-  var btn = document.getElementById('motion'), label = btn.querySelector('span');
   var img = document.getElementById('heroImg'), name = document.getElementById('heroName'), tick = false;
 
   /* typography reveal: letters rise from below (headings), words appear on entry (hero text), words fade in with scroll (paragraphs) */
@@ -244,9 +240,9 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px;p
     if (!hasLink) { var sr = document.createElement('span'); sr.className = 'sr'; sr.textContent = plain; el.appendChild(sr); }
   }
   if (!os) {
-    document.querySelectorAll('h2, .name').forEach(function (el) { splitText(el, true); el.classList.add('sp', 'lt'); el.classList.remove('reveal'); });
+    document.querySelectorAll('.name, section:not(#contact) h2').forEach(function (el) { splitText(el, true); el.classList.add('sp', 'lt'); el.classList.remove('reveal'); });
     document.querySelectorAll('.sub').forEach(function (el) { splitText(el, false); el.classList.add('sp', 'wd'); });
-    document.querySelectorAll('.intro p, .contact p.big').forEach(function (el) {
+    document.querySelectorAll('.intro p').forEach(function (el) {
       splitText(el, false); el.classList.add('sp', 'sc'); el.classList.remove('reveal');
       scrollWords.push({ el: el, w: el.querySelectorAll('.wi') });
     });
@@ -282,9 +278,7 @@ footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px;p
     name.style.transform = 'translateY(' + (-h * vh * 0.08).toFixed(1) + 'px)';
   }
   function req() { if (!tick) { tick = true; requestAnimationFrame(frame); } }
-  function paint() { btn.setAttribute('aria-pressed', on); label.textContent = on ? 'Motion on' : 'Motion off'; root.classList.toggle('still', !on); }
-  btn.onclick = function () { on = !on; paint(); frame(); };
-  addEventListener('scroll', req, { passive: true }); addEventListener('resize', req); addEventListener('load', req); revealObs(); paint(); frame();
+  addEventListener('scroll', req, { passive: true }); addEventListener('resize', req); addEventListener('load', req); revealObs(); frame();
 })();
 </script>
 </body>
